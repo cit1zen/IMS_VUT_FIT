@@ -176,10 +176,11 @@ void Fire::start_fire()
 			if(subtype < 0.22)
 			{
 				// Auto
-				this->strength = 250;
-				this->max_strength = 600;
-				this->strength_dec = 30;
-				this->strength_inc = 10;
+				this->strength = 25;
+				this->max_strength = 60;
+				this->strength_dec = 3;
+				this->strength_inc = 1;
+
 				this->damage = 4000;
 				this->damage_inc = 2000 + Random() * 2000;
 				this->max_duration = 90;
@@ -187,25 +188,34 @@ void Fire::start_fire()
 			else if(subtype < 0.3)
 			{
 				// Porost
-				this->strength = 250;
-				this->max_strength = 600;
-				this->strength_dec = 30;
-				this->strength_inc = 10;
+				this->strength = 20;
+				this->max_strength = 80;
+				this->strength_dec = 3;
+				this->strength_inc = 1;
+
 				this->damage = 4000;
 				this->damage_inc = 0;
 				this->max_duration = 90;
 			}
 			else if(subtype < 0.34)
 			{
-				// Nizka budova
+				this->strength = 10;
+				this->max_strength = 35;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 0;
+				this->max_duration = 60;
 			}
 			else if(subtype < 0.92	)
 			{
 				// Kontainer
-				this->strength = 20;
-				this->max_strength = 100;
-				this->strength_dec = 30;
-				this->strength_inc = 10;
+				this->strength = 2;
+				this->max_strength = 10;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
 				this->damage = 0;
 				this->damage_inc = 0;
 				this->max_duration = 60;
@@ -213,6 +223,14 @@ void Fire::start_fire()
 			else
 			{
 				// Vyskova budova
+				this->strength = 10;
+				this->max_strength = 35;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 0;
+				this->max_duration = 60;
 			}
 			break;
 		case 2:
@@ -221,14 +239,38 @@ void Fire::start_fire()
 			if (subtype < 0.34)
 			{
 				// Nizka budova
+				this->strength = 30;
+				this->max_strength = 120;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 0;
+				this->max_duration = 60;
 			}
 			else if(subtype < 0.39	)
 			{
 				// Odpad a skladka
+				this->strength = 30;
+				this->max_strength = 80;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 0;
+				this->max_duration = 60;
 			}
 			else if(subtype < 0.51	)
 			{
 				// Polny porost
+				this->strength = 40;
+				this->max_strength = 100;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 0;
+				this->max_duration = 60;
 			}
 			else
 			{
