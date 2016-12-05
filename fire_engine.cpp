@@ -11,6 +11,7 @@ FireEngine::FireEngine(unsigned x, unsigned y)
 	this->home[0] = x;
 	this->home[1] = y;
 	this->state = HOME;
+	this->alarm = NULL;
 }
 
 // Vypocitaj cas nutny na cestu medzi poziarom a stanicou
