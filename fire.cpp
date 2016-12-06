@@ -107,7 +107,7 @@ void Fire::Behavior()
 	fire_alive = Time - this->beginning;
 }
 
-unsigned engines_on_site()
+unsigned Fire::engines_on_site()
 {
 	unsigned on_site = 0;
 	for(unsigned i=0;i<this->intensity;i++)
@@ -120,9 +120,9 @@ unsigned engines_on_site()
 }
 
 // Vypocita aktualnu silu poziaru
-int Fire::current_strenght()
+double Fire::current_strenght()
 {
-	int current_strenght = this->strength + (Time - this->phase_start) * (this->strength_inc - strength_dec_index());
+	double current_strenght = this->strength + (Time - this->phase_start) * (this->strength_inc - strength_dec_index());
 	if (current_strenght <= 0)
 		return 0;
 	else
@@ -169,11 +169,12 @@ void Fire::start_fire()
 	// Random fire position
 	this->position[0] = MAP_X * Random();
 	this->position[1] = MAP_Y * Random();
+	double subtype = Random();
 	switch((unsigned)Uniform(1,4))
 	{
 		case 1:
+		{
 			this->intensity=1;
-			double subtype = Random();
 			if(subtype < 0.22)
 			{
 				// Auto
@@ -235,9 +236,10 @@ void Fire::start_fire()
 				this->max_duration = 300;
 			}
 			break;
+		}
 		case 2:
+		{
 			this->intensity=2;
-			double subtype = Random();
 			if (subtype < 0.34)
 			{
 				// Nizka budova
@@ -287,9 +289,10 @@ void Fire::start_fire()
 				this->max_duration = 500;	
 			}
 			break;
+		}
 		case 3:
+		{
 			this->intensity=3;
-			double subtype = Random();
 			if (subtype < 0.44)
 			{
 				// Nizka bodova
@@ -327,6 +330,7 @@ void Fire::start_fire()
 				this->max_duration = 600;
 			}
 			break;
+		}
 	}
 }
 
