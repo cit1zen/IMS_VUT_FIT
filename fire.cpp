@@ -2,6 +2,7 @@
 #include "simlib.h"
 #include <stdlib.h> 
 #include <math.h>
+#include <vector>
 
 #include "params.h"
 #include "fire_engine.h"
@@ -106,7 +107,8 @@ void Fire::Behavior()
 	fire_alive = Time - this->beginning;
 }
 
- {
+unsigned engines_on_site()
+{
 	unsigned on_site = 0;
 	for(unsigned i=0;i<this->intensity;i++)
 	{

@@ -2,6 +2,7 @@
 #include "simlib.h"
 #include <stdlib.h> 
 #include <math.h>
+#include <vector>
 
 #include "params.h"
 #include "fire_engine.h"
@@ -30,8 +31,8 @@ class Generator : public Event {
 
 int main() 
 {
-	Print("IMS - model hasickych stanic\n")
-	Print("Trvanie: %d [m]", MINUTES)
+	Print("IMS - model hasickych stanic\n");
+	Print("Trvanie: %d [m]", MINUTES);
 	for(int i=0;i<5;i++)
 	{
 		Print("============================");

@@ -2,6 +2,7 @@
 #include "simlib.h"
 #include <stdlib.h> 
 #include <math.h>
+#include <vector>
 #include "params.h"
 #include "fire_engine.h"
 
