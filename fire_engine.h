@@ -17,7 +17,7 @@ class FireEngine {
 
 /* Poziarne stanice a auta */
 extern Store* fire_stations;
-extern FireEngine* fire_engines;
+extern std::vector<FireEngine> fire_engines;
 extern unsigned fire_stations_count;
 
 #endif

@@ -106,8 +106,7 @@ void Fire::Behavior()
 	fire_alive = Time - this->beginning;
 }
 
-unsigned Fire::engines_on_site()
-{
+ {
 	unsigned on_site = 0;
 	for(unsigned i=0;i<this->intensity;i++)
 	{
@@ -145,7 +144,7 @@ double Fire::strength_dec_index()
 			switch(this->engines_on_site())
 			{
 				case 1:
-					return this->strength_dec*0.5;
+					return this->strength_dec*0.6;
 				case 2:
 					return this->strength_dec;
 			}
@@ -176,7 +175,7 @@ void Fire::start_fire()
 			if(subtype < 0.22)
 			{
 				// Auto
-				this->strength = 25;
+				this->strength = 10 + 10 * Random();
 				this->max_strength = 60;
 				this->strength_dec = 3;
 				this->strength_inc = 1;
@@ -188,49 +187,50 @@ void Fire::start_fire()
 			else if(subtype < 0.3)
 			{
 				// Porost
-				this->strength = 20;
+				this->strength = 5 + 10 * Random();
 				this->max_strength = 80;
 				this->strength_dec = 3;
 				this->strength_inc = 1;
 
 				this->damage = 4000;
-				this->damage_inc = 0;
+				this->damage_inc = 50 + random() * 10;
 				this->max_duration = 90;
 			}
 			else if(subtype < 0.34)
 			{
-				this->strength = 10;
+				// Nizka budova
+				this->strength = 10 + 20 * Random();
 				this->max_strength = 35;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
-				this->max_duration = 60;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 180;
 			}
 			else if(subtype < 0.92	)
 			{
-				// Kontainer
+				// Kontajner
 				this->strength = 2;
 				this->max_strength = 10;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
+				this->damage_inc = 50 + Random() * 100;
 				this->max_duration = 60;
 			}
 			else
 			{
 				// Vyskova budova
-				this->strength = 10;
+				this->strength = 10 + 20 * Random();
 				this->max_strength = 35;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
-				this->max_duration = 60;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 300;
 			}
 			break;
 		case 2:
@@ -239,42 +239,50 @@ void Fire::start_fire()
 			if (subtype < 0.34)
 			{
 				// Nizka budova
-				this->strength = 30;
+				this->strength = 15 + 30 * Random();
 				this->max_strength = 120;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
-				this->max_duration = 60;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 360;
 			}
 			else if(subtype < 0.39	)
 			{
 				// Odpad a skladka
-				this->strength = 30;
+				this->strength = 20 + 20 * Random();
 				this->max_strength = 80;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
 				this->damage_inc = 0;
-				this->max_duration = 60;
+				this->max_duration = 120;
 			}
 			else if(subtype < 0.51	)
 			{
 				// Polny porost
-				this->strength = 40;
+				this->strength = 10 + 30 * Random();
 				this->max_strength = 100;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
 				this->damage_inc = 0;
-				this->max_duration = 60;
+				this->max_duration = 180;
 			}
 			else
 			{
 				// Vyskova budova
+				this->strength = 10 + 20 * Random();
+				this->max_strength = 35;
+				this->strength_dec = 2;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 500;	
 			}
 			break;
 		case 3:
@@ -283,14 +291,38 @@ void Fire::start_fire()
 			if (subtype < 0.44)
 			{
 				// Nizka bodova
+				this->strength = 100 + 40 * Random();
+				this->max_strength = 600;
+				this->strength_dec = 3;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 420;
 			}
 			else if(subtype < 0.55)
 			{
 				// Priemyselna budova
+				this->strength = 200 + 40 * Random();
+				this->max_strength = 600;
+				this->strength_dec = 3;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 1000 + Random() * 2000;
+				this->max_duration = 600;
 			}
 			else
 			{
 				// Vyskova budova
+				this->strength = 100 + 40 * Random();
+				this->max_strength = 600;
+				this->strength_dec = 3;
+				this->strength_inc = 1;
+
+				this->damage = 0;
+				this->damage_inc = 500 + Random() * 500;
+				this->max_duration = 600;
 			}
 			break;
 	}

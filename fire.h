@@ -5,6 +5,8 @@
 extern unsigned damage_done;
 /* Cas trvania vsetkych poziarov */
 extern unsigned fire_alive;
+/* Pocet poziarov */
+extern unsigned fire_count;
 
 /* Poziar */
 class FireAlarm;
@@ -14,16 +16,16 @@ class Fire : public Process
 		unsigned intensity;
 		unsigned exception;
 		// Zaciatok poziaru
-		unsigned beginning;
+		double beginning;
 		// Pozicia poziaru
 		unsigned position[2];
 		// Sila poziaru
 		double strength;
-		unsigned max_strength;
+		double max_strength;
 		// Znizenie intenzity, ak potrebny pocet vozidiel dojde
-		unsigned strength_dec;
+		double strength_dec;
 		// Zvysovanie sili poziaru
-		unsigned strength_inc;
+		double strength_inc;
 		// Napachane skody
 		unsigned damage;
 		// Zvysovanie sko
@@ -37,9 +39,8 @@ class Fire : public Process
 
 		void Behavior();
 		void start_fire();
-		double strength_dec_index(unsigned engines);
 		unsigned engines_on_site();
-		int current_strenght();
+		double current_strenght();
 		unsigned get_damage(unsigned now);
 		double strength_dec_index();
 };
