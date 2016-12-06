@@ -2,7 +2,7 @@
 #define PARAMS_H
 
 // Trvanie simulacie v sim. case
-#define MINUTES 60*24*30
+#define MINUTES 60*24*365
 
 // Pravdepodobnost poziaru
 #define FIRE_X 24*60/1.7

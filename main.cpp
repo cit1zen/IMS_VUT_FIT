@@ -11,7 +11,7 @@
 /* Hasicke vozidla */
 std::vector<FireEngine> fire_engines;
 Store *fire_stations;
-unsigned fire_stations_count;
+unsigned fire_stations_count = 0;
 /* Skody zo vsetkych poziarov */
 unsigned damage_done = 0;
 /* Cas trvania vsetkych poziarov */
@@ -44,7 +44,6 @@ int main()
 		fire_alive = 0;
 		fire_count = 0;
 		not_all_engines = 0;
-		fire_engines.clear();
 		if(i==0)
 		{
 			fire_engines.push_back(FireEngine(4000,4000));
@@ -80,23 +79,20 @@ int main()
 			fire_engines.push_back(FireEngine(6000,6000));		
 		}
 
+		Store experiment_stations( "experiment_stations", fire_engines.size()-fire_stations_count );
 		fire_stations_count = fire_engines.size();
-		Store experiment_stations( "fire_stations", fire_stations_count );
 		fire_stations = &experiment_stations;
 
 		Init(0, MINUTES);
-		//(new Fire)->Activate();
+		fire_stations->Clear();
 		(new Generator())->Activate();
 		Run();
 
-		//fire_stations->Output();
+		fire_stations->Output();
 		Print("Celkove skody: %u [Kc]\n",damage_done);
 		Print("Celkovy cas horenia: %0.2f [m]\n",fire_alive);
 		Print("Pocet poziarov: %d\n",fire_count);
-		Print("Poziare s nedostatkom aut: %d\n",not_all_engines);
-
-		experiment_stations.Clear();
-		fire_stations->Clear();
+		Print("Poziare s nedostatkom aut: %d\n",not_all_engines);		
 	}
 	return 0;
 }
