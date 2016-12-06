@@ -4,9 +4,11 @@
 /* Skody zo vsetkych poziarov */
 extern unsigned damage_done;
 /* Cas trvania vsetkych poziarov */
-extern unsigned fire_alive;
+extern double fire_alive;
 /* Pocet poziarov */
 extern unsigned fire_count;
+/* Poziare ktore boli uhasene predtym nez dosli vsetky auta */
+extern unsigned not_all_engines;
 
 /* Poziar */
 class FireAlarm;
@@ -33,16 +35,17 @@ class Fire : public Process
 		// Maximalne trvanie
 		unsigned max_duration;
 		// Dostupne auta
-		unsigned phase_start;
+		double phase_start;
 		FireAlarm* alarm;
 		FireEngine* engines[3] = {NULL,NULL,NULL};
 
+		Fire();
 		void Behavior();
-		void start_fire();
 		unsigned engines_on_site();
 		double current_strenght();
-		unsigned get_damage(unsigned now);
+		unsigned get_damage();
 		double strength_dec_index();
+
 };
 
 /* Timeout pre poziar */

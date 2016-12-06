@@ -12,7 +12,7 @@ class FireEngine {
 		Event* alarm;
 
 		FireEngine(unsigned x, unsigned y);
-		unsigned travel_time(unsigned x, unsigned y);
+		double travel_time(unsigned x, unsigned y);
 };
 
 /* Poziarne stanice a auta */

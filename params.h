@@ -2,10 +2,10 @@
 #define PARAMS_H
 
 // Trvanie simulacie v sim. case
-#define MINUTES 60*24*30*365
+#define MINUTES 60*24*30
 
 // Pravdepodobnost poziaru
-#define FIRE_X 60*24*7/5
+#define FIRE_X 24*60/1.7
 
 #define FIRE_ENG_SPPEED 750 // [m/min] == 45 [km/h]
 

@@ -16,7 +16,7 @@ FireEngine::FireEngine(unsigned x, unsigned y)
 }
 
 // Vypocitaj cas nutny na cestu medzi poziarom a stanicou
-unsigned FireEngine::travel_time(unsigned x, unsigned y)
+double FireEngine::travel_time(unsigned x, unsigned y)
 {
-	return round(sqrt(pow(abs((double)this->home[0]-x),2)+pow(abs((double)this->home[1]-y),2))/FIRE_ENG_SPPEED);
+	return sqrt(pow(abs((double)this->home[0]-x),2)+pow(abs((double)this->home[1]-y),2))/FIRE_ENG_SPPEED;
 }

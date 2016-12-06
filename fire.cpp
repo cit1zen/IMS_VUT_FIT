@@ -16,6 +16,7 @@ FireAlarm::FireAlarm(Fire* poziar)
 
 void FireAlarm::Behavior()
 {
+	//Print("FireAlarm %f\n", Time);
 	obsluhovany_poziar->exception = 1;
 	obsluhovany_poziar->Activate();
 }
@@ -32,20 +33,30 @@ FireEngineArrival::FireEngineArrival(Fire* fire, FireEngine* fire_engine)
 
 void FireEngineArrival::Behavior()
 {
+	//Print("FireEngineArrival %f\n", Time);
+	// Zacina nova faza
+	this->fire->phase_start = Time;
+	// Vymazeme pointer na seba, aby sa potom nepokusal niekto dealokov
+	// tento priestor
 	this->fire_engine->alarm = NULL;
+
+	// Vymazeme stary Timeout na uhasenie a urobme novy
 	this->fire->strength = this->fire->current_strenght();
 	this->fire_engine->state = ON_SITE;
-	delete(this->fire->alarm);
+	delete this->fire->alarm;
 	this->fire->alarm = new FireAlarm(this->fire);
 	this->fire->alarm->Activate(Time + abs(this->fire->strength / (this->fire->strength_inc - this->fire->strength_dec_index())));
-	this->fire->phase_start = Time;
 }
 
 void Fire::Behavior() 
 {
+	/*
+	std::cout << "Start: " << Time << std::endl;
+	std::cout << "max_duration: " << Time + this->max_duration << std::endl;
+	*/
+	this->exception = 0;
 	this->beginning = Time;
 	this->phase_start = Time;
-	this->start_fire();
 
 	this->alarm = new FireAlarm(this);
 	this->alarm->Activate(Time + this->max_duration);
@@ -56,44 +67,40 @@ void Fire::Behavior()
 		Enter(*fire_stations, 1);
 		// Aby sme odteraz dostavali auta prioritne
 		Priority = 1;
-		// Vyberieme najblizsiu stanicu
-		int closest_station = -1;
-		for (int i=0;i<fire_stations_count;i++)
-		{
-			if(fire_engines[i].state == HOME)
-			{
-				if(closest_station == -1)
-				{
-					closest_station = i;
-				}
-				else if(fire_engines[i].travel_time(this->position[0],this->position[1]) < fire_engines[closest_station].travel_time(this->position[0],this->position[1]))
-				{
-					closest_station = i;
-				}
-			}
-		}
-		new FireEngineArrival(this,&fire_engines[closest_station]);
-		this->engines[i] = &fire_engines[closest_station];
-
+		
 		// Poziar dohorel skor ako sme dostali auta
 		if(exception)
 		{
-			// Posleme vsetky auta naspat
-			for(unsigned i = 0; i < this->intensity; i++)
+			not_all_engines++;
+			goto END;
+		}
+		// Dostali sme auto
+		else
+		{
+			int closest_station = -1;
+			for (int i=0;i<fire_stations_count;i++)
 			{
-				if(this->engines[i] != NULL)
+				if(fire_engines[i].state == HOME)
 				{
-					new FireEngineReturn(this->engines[i],this->position[0],this->position[1]);
+					if(closest_station == -1)
+					{
+						closest_station = i;
+					}
+					else if(fire_engines[i].travel_time(this->position[0],this->position[1]) < fire_engines[closest_station].travel_time(this->position[0],this->position[1]))
+					{
+						closest_station = i;
+					}
 				}
 			}
-			damage_done = this->get_damage(Time);
-			fire_alive = Time - this->beginning;
-			return;
+			new FireEngineArrival(this,&fire_engines[closest_station]);
+			this->engines[i] = &fire_engines[closest_station];
 		}
 	}
 	// Pockaj na uhasenie
 	// Tuto by to mal event uhasit skor
 	Wait(Time + this->max_duration);
+
+	END:
 	for(unsigned i = 0; i < this->intensity; i++)
 	{
 		if(this->engines[i] != NULL)
@@ -101,10 +108,9 @@ void Fire::Behavior()
 			new FireEngineReturn(this->engines[i],this->position[0],this->position[1]);
 		}
 	}
-
-	std::cout << Time - this->beginning << std::endl;
-	damage_done = this->get_damage(Time);
-	fire_alive = Time - this->beginning;
+	damage_done += this->get_damage();
+	fire_alive += Time - this->beginning;
+	//std::cout << "End: " << Time << std::endl;
 }
 
 unsigned Fire::engines_on_site()
@@ -130,9 +136,9 @@ double Fire::current_strenght()
 }
 
 // Vypocitaj skody
-unsigned Fire::get_damage(unsigned now)
+unsigned Fire::get_damage()
 {
-	return this->damage + (now - this->beginning) * this->damage_inc;
+	return this->damage + (Time - this->beginning) * this->damage_inc;
 }
 
 double Fire::strength_dec_index()
@@ -164,7 +170,7 @@ double Fire::strength_dec_index()
 	return 0;
 }
 
-void Fire::start_fire()
+Fire::Fire()
 {
 	// Random fire position
 	this->position[0] = MAP_X * Random();
@@ -184,8 +190,8 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 4000;
-				this->damage_inc = 2000 + Random() * 2000;
-				this->max_duration = 90;
+				this->damage_inc = 400 + Random() * 200;
+				this->max_duration = 120;
 			}
 			else if(subtype < 0.3)
 			{
@@ -194,10 +200,10 @@ void Fire::start_fire()
 				this->max_strength = 80;
 				this->strength_dec = 3;
 				this->strength_inc = 1;
-
-				this->damage = 4000;
-				this->damage_inc = 50 + random() * 10;
-				this->max_duration = 90;
+;
+				this->damage = 400;
+				this->damage_inc = 10 + Random() * 50;
+				this->max_duration = 120;
 			}
 			else if(subtype < 0.34)
 			{
@@ -208,7 +214,7 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 100 + Random() * 100;
 				this->max_duration = 180;
 			}
 			else if(subtype < 0.92	)
@@ -220,19 +226,19 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 50 + Random() * 100;
+				this->damage_inc = 5 + Random() * 10;
 				this->max_duration = 60;
 			}
 			else
 			{
 				// Vyskova budova
-				this->strength = 10 + 20 * Random();
+				this->strength = 10 + 25 * Random();
 				this->max_strength = 35;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 100 + Random() * 100;
 				this->max_duration = 300;
 			}
 			break;
@@ -243,25 +249,25 @@ void Fire::start_fire()
 			if (subtype < 0.34)
 			{
 				// Nizka budova
-				this->strength = 15 + 30 * Random();
+				this->strength = 15 + 15 * Random();
 				this->max_strength = 120;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 200 + Random() * 300;
 				this->max_duration = 360;
 			}
 			else if(subtype < 0.39	)
 			{
 				// Odpad a skladka
-				this->strength = 20 + 20 * Random();
+				this->strength = 20 + 10 * Random();
 				this->max_strength = 80;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
+				this->damage_inc = 10 * Random();
 				this->max_duration = 120;
 			}
 			else if(subtype < 0.51	)
@@ -273,19 +279,19 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 0;
+				this->damage_inc = 50 * Random();
 				this->max_duration = 180;
 			}
 			else
 			{
 				// Vyskova budova
-				this->strength = 10 + 20 * Random();
+				this->strength = 20 + 15 * Random();
 				this->max_strength = 35;
 				this->strength_dec = 2;
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 200 + Random() * 300;
 				this->max_duration = 500;	
 			}
 			break;
@@ -302,7 +308,7 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 200 + Random() * 500;
 				this->max_duration = 420;
 			}
 			else if(subtype < 0.55)
@@ -314,7 +320,7 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 1000 + Random() * 2000;
+				this->damage_inc = 800 + Random() * 1000;
 				this->max_duration = 600;
 			}
 			else
@@ -326,7 +332,7 @@ void Fire::start_fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 500 + Random() * 500;
+				this->damage_inc = 200 + Random() * 500;
 				this->max_duration = 600;
 			}
 			break;
@@ -348,6 +354,7 @@ FireEngineReturn::FireEngineReturn(FireEngine* fire_engine, unsigned x, unsigned
 
 void FireEngineReturn::Behavior()
 {
+	//Print("FireEngineReturn %f\n", Time);
 	this->fire_engine->state = HOME;
 	Leave(*fire_stations, 1);
 }

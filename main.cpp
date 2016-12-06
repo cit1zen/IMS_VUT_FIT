@@ -15,9 +15,11 @@ unsigned fire_stations_count;
 /* Skody zo vsetkych poziarov */
 unsigned damage_done = 0;
 /* Cas trvania vsetkych poziarov */
-unsigned fire_alive = 0;
+double fire_alive = 0;
 /* Pocet poziarov */
 unsigned fire_count = 0;
+/* Poziare ktore boli uhasene predtym nez dosli vsetky auta */
+unsigned not_all_engines = 0;
 
 // Generator poziarov
 class Generator : public Event {
@@ -31,15 +33,17 @@ class Generator : public Event {
 
 int main() 
 {
+	RandomSeed(time(NULL));
 	Print("IMS - model hasickych stanic\n");
-	Print("Trvanie: %d [m]", MINUTES);
+	Print("Trvanie: %d [m]\n", MINUTES);
 	for(int i=0;i<5;i++)
 	{
-		Print("============================");
-		Print("Experiment #%d",i);
+		Print("============================\n");
+		Print("Experiment #%d\n",i);
 		damage_done = 0;
 		fire_alive = 0;
 		fire_count = 0;
+		not_all_engines = 0;
 		fire_engines.clear();
 		if(i==0)
 		{
@@ -81,12 +85,18 @@ int main()
 		fire_stations = &experiment_stations;
 
 		Init(0, MINUTES);
+		//(new Fire)->Activate();
 		(new Generator())->Activate();
 		Run();
 
-		Print("Celkove skody: %d [Kc]",damage_done);
-		Print("Celkove cas horenia: %d [Kc]",damage_done);
-		Print("Pocet poziarov: %d [Kc]",damage_done);
+		//fire_stations->Output();
+		Print("Celkove skody: %u [Kc]\n",damage_done);
+		Print("Celkovy cas horenia: %0.2f [m]\n",fire_alive);
+		Print("Pocet poziarov: %d\n",fire_count);
+		Print("Poziare s nedostatkom aut: %d\n",not_all_engines);
+
+		experiment_stations.Clear();
+		fire_stations->Clear();
 	}
 	return 0;
 }
