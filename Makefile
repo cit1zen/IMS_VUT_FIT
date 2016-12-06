@@ -5,7 +5,7 @@ experiment: $(depencencies)
 	g++ --std=c++11 -l simlib fire_engine.cpp fire.cpp main.cpp -o $@ 
 
 .PHONY: run, clean
-run: experiment
+run:
 	./experiment
 
 clean:

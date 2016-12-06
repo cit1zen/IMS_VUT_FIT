@@ -44,6 +44,7 @@ int main()
 		fire_alive = 0;
 		fire_count = 0;
 		not_all_engines = 0;
+		fire_engines.clear();
 		if(i==0)
 		{
 			fire_engines.push_back(FireEngine(4000,4000));
@@ -79,7 +80,7 @@ int main()
 			fire_engines.push_back(FireEngine(6000,6000));		
 		}
 
-		Store experiment_stations( "experiment_stations", fire_engines.size()-fire_stations_count );
+		Store experiment_stations( "experiment_stations", fire_engines.size() );
 		fire_stations_count = fire_engines.size();
 		fire_stations = &experiment_stations;
 

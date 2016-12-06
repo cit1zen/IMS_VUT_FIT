@@ -5,7 +5,7 @@
 #define MINUTES 60*24*365
 
 // Pravdepodobnost poziaru
-#define FIRE_X 24*60/1.7
+#define FIRE_X 24*60/1.72
 
 #define FIRE_ENG_SPPEED 750 // [m/min] == 45 [km/h]
 

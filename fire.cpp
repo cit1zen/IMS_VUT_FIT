@@ -190,7 +190,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 4000;
-				this->damage_inc = 400 + Random() * 200;
+				this->damage_inc = 400 + Random() * 500;
 				this->max_duration = 120;
 			}
 			else if(subtype < 0.3)
@@ -200,7 +200,7 @@ Fire::Fire()
 				this->max_strength = 80;
 				this->strength_dec = 3;
 				this->strength_inc = 1;
-;
+
 				this->damage = 400;
 				this->damage_inc = 10 + Random() * 50;
 				this->max_duration = 120;
@@ -214,7 +214,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 100 + Random() * 100;
+				this->damage_inc = 200 + Random() * 400;
 				this->max_duration = 180;
 			}
 			else if(subtype < 0.92	)
@@ -238,7 +238,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 100 + Random() * 100;
+				this->damage_inc = 200 + Random() * 500;
 				this->max_duration = 300;
 			}
 			break;
@@ -255,7 +255,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 200 + Random() * 300;
+				this->damage_inc = 500 + Random() * 600;
 				this->max_duration = 360;
 			}
 			else if(subtype < 0.39	)
@@ -291,8 +291,8 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 200 + Random() * 300;
-				this->max_duration = 500;	
+				this->damage_inc = 500 + Random() * 700;
+				this->max_duration = 500;
 			}
 			break;
 		}
@@ -308,7 +308,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 200 + Random() * 500;
+				this->damage_inc = 900 + Random() * 1200;
 				this->max_duration = 420;
 			}
 			else if(subtype < 0.55)
@@ -320,7 +320,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 800 + Random() * 1000;
+				this->damage_inc = 1500 + Random() * 2000;
 				this->max_duration = 600;
 			}
 			else
@@ -332,7 +332,7 @@ Fire::Fire()
 				this->strength_inc = 1;
 
 				this->damage = 0;
-				this->damage_inc = 200 + Random() * 500;
+				this->damage_inc = 1100 + Random() * 1500;
 				this->max_duration = 600;
 			}
 			break;
